@@ -1,7 +1,9 @@
 #!/bin/bash
 
+## Load configuration file
 . vps_setup-env.conf
 
+## Print prompt and do not proceed unless user enters Y or N.
 print_prompt() {
 	ready=0
 	while [ $ready == 0 ]; do
@@ -16,10 +18,12 @@ print_prompt() {
 	done
 }
 
+## Print log message
 print_log() {
 	echo -e "\n\n\t****** $1 ******"
 }
 
+## Display variables to user for sanity check
 echo -e "\t*********************************************"
 echo -e "\t********** Debian VPS Setup Script **********"
 echo -e "\t*********************************************"
