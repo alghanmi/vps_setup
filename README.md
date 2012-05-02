@@ -29,13 +29,13 @@ The following actions are performed by the script:
 
 + Hostname
 
-+ DNS (inserting [Google Public DNS](https://developers.google.com/speed/public-dns/) `8.8.8.8` `8.8.4.4`)
++ DNS (inserting [Google Public DNS](https://developers.google.com/speed/public-dns/) `8.8.8.8`, `8.8.4.4`)
 
 ###IPTables
-default iptables script
+TBD
 
 ###Lighttpd
-auto setup of sites and modules
+TBD
 
 
 Running The Script
@@ -44,5 +44,9 @@ Running The Script
 # Setup configuration script
 cp vps_setup-env.conf.default vps_setup-env.conf
 
+# Edit configuration file to your liking
+$EDITOR vps_setup-env.conf
+
+# Run the main script
 bash vps_setup.sh
 ```
