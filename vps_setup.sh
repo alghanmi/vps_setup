@@ -1,7 +1,31 @@
 #!/bin/bash
 
-## Load configuration file
-. vps_setup-env.conf
+## Load a configuration file if exists
+load_conf_file() {
+	ready=0
+	while [ $ready == 0 ]; do
+		if [ -f $1 ]
+			then
+				print_log "Using $1"
+				. $1
+			else
+				read -p "File $1 not found. Do you wish to [R]etry, [C]ontinue or [Q]uit (r/c/q)?" answer
+				if [ "$answer" == 'R' -o "$answer" == 'r' ]; then
+					echo "Retrying"
+					ready=0;
+				fi
+				if [ "$answer" == 'C' -o "$answer" == 'c' ]; then
+					echo "Continue"
+					ready=1;
+				fi
+				if [ "$answer" == 'Q' -o "$answer" == 'q' ]; then
+					echo "Exiting setup.."
+					exit 1;
+				fi
+		fi
+	done
+}
+
 
 ## Print prompt and do not proceed unless user enters Y or N.
 print_prompt() {
@@ -22,6 +46,9 @@ print_prompt() {
 print_log() {
 	echo -e "\n\n\t****** $1 ******"
 }
+
+## Loading configuration file
+check_file vps_setup-env.conf
 
 ## Display variables to user for sanity check
 echo -e "\t*********************************************"
