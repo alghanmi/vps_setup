@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. setup.env
+. vps_setup-env.conf
 
 print_prompt() {
 	ready=0
