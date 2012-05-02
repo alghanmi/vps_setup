@@ -1,0 +1,37 @@
+##
+## Debian Packages
+##
+
+## Libraries, Software & Development Essentials
+ssh openssh-server openssl ntp
+build-essential binutils
+screen byobu lsb-release
+
+## Networking Applications
+traceroute curl nmap dnsutils
+
+## Lighttpd
+lighttpd 
+
+## Email
+exim4-daemon-light
+
+## Programming Languages & Platforms
+gdb colorgcc
+#openjdk-6-jdk ant maven2
+python3
+php5-cgi php5-dev php5-curl php-pear
+
+## Software Version Contorl
+subversion subversion-tools git git-svn gitweb mercurial
+
+## Text Editors, Text/Markup Related Scripts
+vim-nox vim-scripts nano
+enscript highlight astyle colordiff diffstat
+
+## Language Related Packages
+locales
+iamerican wamerican ispell
+
+## Helpful Applications
+unzip zip unrar unace p7zip par2 wipe
