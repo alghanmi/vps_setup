@@ -37,6 +37,9 @@ TBD
 ###Lighttpd
 TBD
 
+## A Note on Java
+Due to the amount of extra packages required by the JDK and JRE, Java setup is commented out of the script
+
 
 Running The Script
 ------------------
