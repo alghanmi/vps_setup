@@ -41,6 +41,9 @@ TBD
 Running The Script
 ------------------
 ```bash
+# You may want to consider changing your password
+passwd
+
 # Setup configuration script
 cp vps_setup-env.conf.default vps_setup-env.conf
 
