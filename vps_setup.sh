@@ -102,8 +102,8 @@ rm $PACKAGES_SCRIPT $PACKAGES_FILE
 print_log "Setup Timezone"
 dpkg-reconfigure tzdata
 print_log "Setup Locales"
-locale-gen en_US.UTF-8
-update-locale LANG=en_US.UTF-8
+locale-gen $SERVER_LOCALE
+update-locale LANG=$SERVER_LOCALE
 print_log "Selecting Default Worldlist"
 select-default-wordlist
 
