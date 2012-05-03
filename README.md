@@ -17,7 +17,7 @@ The main setup is performed by `vps_setup.sh` which is written in bash.
 
 The following actions are performed by the script:
 
-+ Set repositories
++ Set repositories including Debian backports
 
 + Install packages in `packages.list`
 
