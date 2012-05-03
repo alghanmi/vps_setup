@@ -16,19 +16,12 @@ The main setup is performed by `vps_setup.sh` which is written in bash.
 
 
 The following actions are performed by the script:
-
 + Set repositories including Debian backports
-
 + Install packages in `packages.list`
-
 + Set Timezone
-
 + Set Locale (default is `en_US.UTF-8`)
-
 + Set iSpell wordlist
-
 + Hostname
-
 + DNS (inserting [Google Public DNS](https://developers.google.com/speed/public-dns/) `8.8.8.8`, `8.8.4.4`)
 
 ###IPTables
