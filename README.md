@@ -23,6 +23,11 @@ The following actions are performed by the script:
 + Set iSpell wordlist
 + Hostname
 + DNS (inserting [Google Public DNS](https://developers.google.com/speed/public-dns/) `8.8.8.8`, `8.8.4.4`)
++ SSH Setup
+	* Change port to non-standard port number
+	* Disable root login
+	* Disable password login
+	* Disable X11 forwarding
 
 ###IPTables
 TBD
