@@ -124,4 +124,4 @@ print_log "DNS Configuration"
 sed -i '1i\
 nameserver 8.8.8.8\
 nameserver 8.8.4.4' /etc/resolv.conf
-#sed -i 4d /etc/resolv.conf
+service networking restart
