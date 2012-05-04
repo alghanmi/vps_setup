@@ -125,3 +125,18 @@ sed -i '1i\
 nameserver 8.8.8.8\
 nameserver 8.8.4.4' /etc/resolv.conf
 service networking restart
+
+## SSH Configuration
+print_log "SSH Configuration"
+cp /etc/ssh/sshd_config /etc/ssh/sshd_config.default
+sed -i "s/Port 22/Port $SSH_PORT/" /etc/ssh/sshd_config
+sed -i -e 's/^PermitRootLogin yes/PermitRootLogin no/' -e 's/^PermitEmptyPasswords yes/PermitEmptyPasswords no/' /etc/ssh/sshd_config
+sed -i 's/^X11Forwarding yes/X11Forwarding no/' /etc/ssh/sshd_config
+sed -i "s/#ListenAddress 0.0.0.0/ListenAddress $SERVER_IP/" /etc/ssh/sshd_config
+sed -i 's/^UsePAM yes/UsePAM no/' /etc/ssh/sshd_config
+sed -i 's/^UseDNS yes/UseDNS no/' /etc/ssh/sshd_config
+echo "" | tee -a /etc/ssh/sshd_config
+echo "# Permit only specific users" | tee -a /etc/ssh/sshd_config
+echo "AllowUsers $SUPER_USER" | tee -a /etc/ssh/sshd_config
+service ssh restart
+
