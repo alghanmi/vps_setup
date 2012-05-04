@@ -3,9 +3,13 @@
 ##
 
 ## Libraries, Software & Development Essentials
-sudo ssh openssh-server openssl ntp
+ssh openssh-server openssl
 build-essential binutils
-screen byobu lsb-release
+screen byobu
+
+## System tools
+sudo ntp lsb-release
+unattended-upgrades
 
 ## Networking Applications
 traceroute curl nmap dnsutils
