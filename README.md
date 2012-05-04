@@ -28,6 +28,8 @@ The following actions are performed by the script:
 	* Disable root login
 	* Disable password login
 	* Disable X11 forwarding
+	* Disable PAM & DNS
+	* Only allow `$SUPER_USER` to access machine via `ssh`
 
 ###IPTables
 TBD
