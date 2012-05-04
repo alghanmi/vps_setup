@@ -8,6 +8,7 @@ load_conf_file() {
 			then
 				print_log "Using $1"
 				. $1
+				ready=1;
 			else
 				read -p "File $1 not found. Do you wish to [R]etry, [C]ontinue or [Q]uit (r/c/q)?" answer
 				if [ "$answer" == 'R' -o "$answer" == 'r' ]; then
@@ -184,3 +185,6 @@ echo "Hello World! From $USER on $(hostname) sent to $SUPER_USER" | mail -s "Hel
 curl https://raw.github.com/alghanmi/vps_setup/master/scripts/iptables-setup.sh | sed -e s/^SERVER_IP=.*/SERVER_IP=\"$SERVER_IP\"/ -e s/^SSH_PORT=.*/SSH_PORT=\"$SSH_PORT\"/ - > /home/$SUPER_USER/bin/iptables-setup.sh
 chmod 755 /home/$SUPER_USER/bin/iptables-setup.sh
 sh /home/$SUPER_USER/bin/iptables-setup.sh
+
+## Automatic package upgrades
+
