@@ -3,7 +3,7 @@
 ##
 
 ## Libraries, Software & Development Essentials
-ssh openssh-server openssl ntp
+sudo ssh openssh-server openssl ntp
 build-essential binutils
 screen byobu lsb-release
 
