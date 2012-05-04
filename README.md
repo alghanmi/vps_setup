@@ -1,11 +1,22 @@
 VPS Configuration Script
 ========================
 
-###Operating System
-Debian 6.0 Squeeze 64-bit
+Due to the nature of my work, I do need to bring up VPSs quite often. Since multiple providers are used to house these VMs, the need for a "generic" script to setup a VPS came-up.
+
+Each VPS should have a complete development environment and a bare-bone deployment environment. Therefore, you will find most of the common programming languages/frameworks installed with the exception of Java (details are in a separate section). Using this setup you will have:
++ Text editors (vi, emacs)
++ Version Control Systems (git, subversion, mercurial)
++ gcc/g++
++ Python 2.x & 3
++ Perl
++ PHP and Pear
++ Ruby and Gem
++ Lighttpd Webserver
+
+My operating system of choice is _Debian 6.0 Squeeze 64-bit_
 
 ### VPS Customization
-Customization of the vps is based on variables set in a file named `vps_setup-env.conf`.
+This script is customizable in terms of specifying VM-specific attributes such as hostname, ssh port, etc. Customization of the vps is based on variables set in a file named `vps_setup-env.conf`.
 
 
 VPS Setup Scripts
@@ -13,7 +24,6 @@ VPS Setup Scripts
 
 ###Basic Setup
 The main setup is performed by `vps_setup.sh` which is written in bash. 
-
 
 The following actions are performed by the script:
 + Set repositories including Debian backports
@@ -32,6 +42,9 @@ The following actions are performed by the script:
 	* Disable X11 forwarding
 	* Disable PAM & DNS
 	* Only allow `$SUPER_USER` to access machine via `ssh`
+
+Due to performance reasons, The script does *not*:
++ Change `ntp` servers, i.e. leaving debian defaults as is.
 
 ###IPTables
 TBD
@@ -58,6 +71,14 @@ $EDITOR vps_setup-env.conf
 # Run the main script
 bash vps_setup.sh
 ```
+
+Common Applications to Add
+--------------------------
+There are number of very common applications that you may need add to your VPS and were not included above. Mostly, these have not been included for performance or storage reasons.
+
+### Java
+### MySQL
+### Apache
 
 License
 -------
