@@ -18,19 +18,20 @@ The main setup is performed by `vps_setup.sh` which is written in bash.
 The following actions are performed by the script:
 + Set repositories including Debian backports
 + Install packages in `packages.list`
++ Add `$SUPER_USER` as member of `sudo`, `adm` and `www-data` groups.
 + Set Timezone
 + Set Locale (default is `en_US.UTF-8`)
-+ Set iSpell wordlist
++ Set iSpell wordlist (default is American English)
 + Hostname
 + DNS (inserting [Google Public DNS](https://developers.google.com/speed/public-dns/) `8.8.8.8`, `8.8.4.4`)
 + SSH Setup
 	* Change port to non-standard port number
+	* Explicitly add inet interface to `Listen` directive
 	* Disable root login
 	* Disable password login
 	* Disable X11 forwarding
 	* Disable PAM & DNS
 	* Only allow `$SUPER_USER` to access machine via `ssh`
-+ Add `$SUPER_USER` with `ssh` privileges and member of `sudo`, `adm` and `www-data` groups.
 
 ###IPTables
 TBD
@@ -60,4 +61,4 @@ bash vps_setup.sh
 
 License
 -------
-See the LICENSE file
+See the LICENSE file.
