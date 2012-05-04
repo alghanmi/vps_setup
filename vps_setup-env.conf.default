@@ -6,13 +6,12 @@ SUPER_USER=""
 SERVER_NAME=""		# Machine name, not FQDN
 SERVER_DOMAIN=""	# Domain name
 SERVER_OTHER_NAMES=""	# More domains if needed
-
+SUPPORT_EMAIL=""	# Email where system alerts should be routed to
 
 # SMTP Information for exim
 MAILER_SMARTHOST=""	# SMTP Server
-SUPPORT_EMAIL=""	# SMTP Login (username)
+MAILER_EMAIL=""		# SMTP Username
 MAILER_PASSWORD=""	# SMTP Password
-
 
 ## Default values set, change if needed
 SERVER_IP="$(/sbin/ifconfig $1 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}' | sed 2~1d -)"
