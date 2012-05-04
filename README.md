@@ -56,3 +56,7 @@ $EDITOR vps_setup-env.conf
 # Run the main script
 bash vps_setup.sh
 ```
+
+License
+-------
+See the LICENSE file
