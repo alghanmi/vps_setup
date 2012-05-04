@@ -140,3 +140,19 @@ echo "# Permit only specific users" | tee -a /etc/ssh/sshd_config
 echo "AllowUsers $SUPER_USER" | tee -a /etc/ssh/sshd_config
 service ssh restart
 
+
+##
+## SuperUser Setup
+##
+
+## User Management
+print_log "User management"
+adduser $SUPER_USER
+usermod -a -G sudo $SUPER_USER
+usermod -a -G adm $SUPER_USER
+usermod -a -G www-data $SUPER_USER
+
+## Mail Aliases
+echo "root: root,$SUPPORT_EMAIL" | tee -a /etc/aliases
+echo "$SUPER_USER: $SUPER_USER,$SUPER_USER@$SERVER_DOMAIN" | tee -a /etc/aliases
+newaliases
