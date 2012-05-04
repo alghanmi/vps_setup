@@ -48,7 +48,7 @@ print_log() {
 }
 
 ## Loading configuration file
-check_file vps_setup-env.conf
+load_conf_file vps_setup-env.conf
 
 ## Display variables to user for sanity check
 echo -e "\t*********************************************"
