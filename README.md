@@ -3,11 +3,11 @@ VPS Configuration Script
 
 Due to the nature of my work, I do need to bring up VPSs quite often. Since multiple providers are used to house these VMs, the need for a "generic" script to setup a VPS came-up.
 
-Each VPS should have a complete development environment and a bare-bone deployment environment. Therefore, you will find most of the common programming languages/frameworks installed with the exception of Java (details are in a separate section). Using this setup you will have:
-+ Text editors (vi, emacs)
+Each VPS should have a complete development environment and a bare-bone deployment environment. Therefore, you will find most of the common programming languages/frameworks and basic tools installed with the exception of Java (details are in a separate section). This includes:
++ Text editors (vi, emacs, nano)
 + Version Control Systems (git, subversion, mercurial)
 + gcc/g++
-+ Python 2.x & 3
++ Python 2.x & 3.0
 + Perl
 + PHP and Pear
 + Ruby and Gem
@@ -44,14 +44,11 @@ The following actions are performed by the script:
 	* Only allow `$SUPER_USER` to access machine via `ssh`
 + iptables firewall setup. You can see the [iptables rules](https://github.com/alghanmi/vps_setup/blob/master/scripts/iptables-setup.sh) in the scripts directory
 
-Due to performance reasons, The script does *not*:
-+ Change `ntp` servers, i.e. leaving debian defaults as is.
-
 ###Lighttpd
 TBD
 
-## A Note on Java
-Due to the amount of extra packages required by the JDK and JRE, Java setup is commented out of the script
+###What is not Setup?
++ *Java* - Due to the amount of extra packages required by the JDK and JRE, Java setup is commented out of the script
 
 
 Running The Script
@@ -80,4 +77,4 @@ There are number of very common applications that you may need add to your VPS a
 
 License
 -------
-See the LICENSE file.
+See the [LICENSE](https://raw.github.com/alghanmi/vps_setup/master/LICENSE) file.
