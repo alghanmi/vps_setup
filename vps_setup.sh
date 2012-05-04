@@ -140,3 +140,18 @@ echo "# Permit only specific users" | tee -a /etc/ssh/sshd_config
 echo "AllowUsers $SUPER_USER" | tee -a /etc/ssh/sshd_config
 service ssh restart
 
+## Email Configuration using Exim
+print_log "Exim configuration"
+cp /etc/exim4/update-exim4.conf.conf /etc/exim4/update-exim4.conf.conf.default
+sed -i -e "s/^dc_eximconfig_configtype='.*'/dc_eximconfig_configtype='smarthost'/" \
+    -e "s/^dc_other_hostnames='.*'/dc_other_hostnames=''/" \
+    -e "s/^dc_smarthost='.*'/dc_smarthost='$MAILER_SMARTHOST'/" \
+    -e "s/^dc_hide_mailname='.*'/dc_hide_mailname='false'/"  /etc/exim4/update-exim4.conf.conf
+echo "$SERVER_NAME.$SERVER_DOMAIN" | tee /etc/mailname
+echo "*:$MAILER_EMAIL:$MAILER_PASSWORD" | tee -a /etc/exim4/passwd.client
+unset MAILER_PASSWORD
+update-exim4.conf
+service exim4 restart
+
+## Sending Test Email
+echo "Hello World! From $USER on $(hostname) sent to $SUPER_USER" | mail -s "Hello World from $(hostname)" $SUPER_USER
