@@ -42,12 +42,10 @@ The following actions are performed by the script:
 	* Disable X11 forwarding
 	* Disable PAM & DNS
 	* Only allow `$SUPER_USER` to access machine via `ssh`
++ iptables firewall setup. You can see the [iptables rules](https://raw.github.com/alghanmi/vps_setup/scripts/iptables-setup.sh) in the scripts directory
 
 Due to performance reasons, The script does *not*:
 + Change `ntp` servers, i.e. leaving debian defaults as is.
-
-###IPTables
-TBD
 
 ###Lighttpd
 TBD

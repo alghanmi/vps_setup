@@ -115,6 +115,9 @@ echo "root: root,$SUPPORT_EMAIL" | tee -a /etc/aliases
 echo "$SUPER_USER: $SUPER_USER,$SUPER_USER@$SERVER_DOMAIN" | tee -a /etc/aliases
 newaliases
 
+## Housekeeping
+mkdir /home/$SUPER_USER/bin
+chown -R $SUPER_USER:$SUPER_USER /home/$SUPER_USER/bin
 
 ##
 ## System Configuration
@@ -174,6 +177,10 @@ echo "*:$MAILER_EMAIL:$MAILER_PASSWORD" | tee -a /etc/exim4/passwd.client
 unset MAILER_PASSWORD
 update-exim4.conf
 service exim4 restart
-
-## Sending Test Email
+# Sending Test Email
 echo "Hello World! From $USER on $(hostname) sent to $SUPER_USER" | mail -s "Hello World from $(hostname)" $SUPER_USER
+
+## iptables
+curl https://raw.github.com/alghanmi/vps_setup/scripts/iptables-setup.sh | sed -e s/^SERVER_IP=.*/SERVER_IP=\"$SERVER_IP\"/ -e s/^SSH_PORT=.*/SSH_PORT=\"$SSH_PORT\"/ - > /home/$SUPER_USER/bin/iptables-setup.sh
+chmod 755 /home/$SUPER_USER/bin/iptables-setup.sh
+sh /home/$SUPER_USER/bin/iptables-setup.sh
