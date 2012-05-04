@@ -30,6 +30,7 @@ The following actions are performed by the script:
 	* Disable X11 forwarding
 	* Disable PAM & DNS
 	* Only allow `$SUPER_USER` to access machine via `ssh`
++ Add `$SUPER_USER` with `ssh` privileges and member of `sudo`, `adm` and `www-data` groups.
 
 ###IPTables
 TBD

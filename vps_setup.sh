@@ -98,6 +98,28 @@ chmod 755 $PACKAGES_SCRIPT
 sh $PACKAGES_SCRIPT
 rm $PACKAGES_SCRIPT $PACKAGES_FILE
 
+
+##
+## SuperUser Setup
+##
+
+## User Management
+print_log "User management"
+adduser $SUPER_USER
+usermod -a -G sudo $SUPER_USER
+usermod -a -G adm $SUPER_USER
+usermod -a -G www-data $SUPER_USER
+
+## Mail Aliases
+echo "root: root,$SUPPORT_EMAIL" | tee -a /etc/aliases
+echo "$SUPER_USER: $SUPER_USER,$SUPER_USER@$SERVER_DOMAIN" | tee -a /etc/aliases
+newaliases
+
+
+##
+## System Configuration
+##
+
 ## Machine Locale Details
 print_log "Setup Timezone"
 dpkg-reconfigure tzdata
