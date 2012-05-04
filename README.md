@@ -64,7 +64,8 @@ cp vps_setup-env.conf.default vps_setup-env.conf
 $EDITOR vps_setup-env.conf
 
 # Run the main script
-bash vps_setup.sh
+chmod 755 vps_setup.sh
+./vps_setup.sh
 ```
 
 Common Applications to Add
