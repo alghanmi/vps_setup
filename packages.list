@@ -9,7 +9,7 @@ screen byobu
 
 ## System tools
 sudo ntp lsb-release
-unattended-upgrades
+unattended-upgrades apticron
 
 ## Networking Applications
 traceroute curl nmap dnsutils

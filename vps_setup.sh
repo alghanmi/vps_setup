@@ -188,4 +188,9 @@ chmod 755 /home/$SUPER_USER/bin/iptables-setup.sh
 sh /home/$SUPER_USER/bin/iptables-setup.sh
 
 ## Automatic package upgrades
-
+echo "APT::Periodic::Enable \"1\";" | tee /etc/apt/apt.conf.d/30auto-upgrades
+echo "APT::Periodic::Update-Package-Lists \"1\";" | tee -a /etc/apt/apt.conf.d/30auto-upgrades
+echo "APT::Periodic::AutocleanInterval \"7\";" | tee -a /etc/apt/apt.conf.d/30auto-upgrades
+echo "APT::Periodic::Unattended-Upgrade \"1\";" | tee -a /etc/apt/apt.conf.d/30auto-upgrades
+echo "Unattended-Upgrade::Mail \"$SUPPORT_EMAIL\";" | tee -a /etc/apt/apt.conf.d/30auto-upgrades
+sed -i "s/^EMAIL=.*/EMAIL=\"$SUPPORT_EMAIL\"/" /etc/apticron/apticron.conf

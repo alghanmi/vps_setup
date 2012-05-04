@@ -43,6 +43,7 @@ The following actions are performed by the script:
 	* Disable PAM & DNS
 	* Only allow `$SUPER_USER` to access machine via `ssh`
 + iptables firewall setup. You can see the [iptables rules](https://github.com/alghanmi/vps_setup/blob/master/scripts/iptables-setup.sh) in the scripts directory
++ Unattended security upgrades
 
 ###Lighttpd
 TBD
