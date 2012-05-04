@@ -130,6 +130,7 @@ dpkg-reconfigure tzdata
 print_log "Setup Locales"
 locale-gen $SERVER_LOCALE
 update-locale LANG=$SERVER_LOCALE
+dpkg-reconfigure locales
 print_log "Selecting Default Worldlist"
 select-default-wordlist
 
