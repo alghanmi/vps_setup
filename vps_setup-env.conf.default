@@ -14,7 +14,7 @@ MAILER_EMAIL=""		# SMTP Username
 MAILER_PASSWORD=""	# SMTP Password
 
 ## Default values set, change if needed
-SERVER_IP="$(/sbin/ifconfig $1 | grep "inet addr" | awk -F: '{print $2}' | awk '{print $1}' | sed 2~1d -)"
+SERVER_IP="$(ifconfig | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}')"
 SSH_PORT="12345"
 SERVER_LOCALE="en_US.UTF-8"
 
