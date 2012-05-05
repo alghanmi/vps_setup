@@ -74,8 +74,13 @@ Common Applications to Add
 There are number of very common applications that you may need add to your VPS and were not included above. Mostly, these have not been included for performance or storage reasons.
 
 ### Java
+TBD
+
 ### MySQL
+TBD
+
 ### Apache
+TBD
 
 License
 -------
