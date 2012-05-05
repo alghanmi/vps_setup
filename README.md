@@ -55,14 +55,14 @@ TBD
 Running The Script
 ------------------
 ```bash
-# You may want to consider changing your password
+# You may want to consider changing the root password
 passwd
 
 # Setup configuration script
 cp vps_setup-env.conf.default vps_setup-env.conf
 
 # Edit configuration file to your liking
-$EDITOR vps_setup-env.conf
+vi vps_setup-env.conf
 
 # Run the main script
 chmod 755 vps_setup.sh
