@@ -22,9 +22,11 @@ exim4-daemon-light
 
 ## Programming Languages & Platforms
 gdb colorgcc
-#openjdk-6-jdk ant maven2
+perl
 python3
+ruby1.9.1 ruby1.9.1-dev
 php5-cgi php5-dev php5-curl php-pear
+#openjdk-6-jdk ant maven2
 
 ## Software Version Contorl
 subversion subversion-tools git git-svn gitweb mercurial
