@@ -46,7 +46,7 @@ $IPTABLES -A INPUT -d $SERVER_IP -p tcp --dport 80 -j ACCEPT
 #$IPTABLES -A INPUT -d $SERVER_IP -p tcp --dport 443 -j ACCEPT
 
 # Logging denied calls
-$IPTABLES -A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied: " --log-level 7
+#$IPTABLES -A INPUT -m limit --limit 5/min -j LOG --log-prefix "iptables denied: " --log-level 7
 
 # Reject Global Traffic [Must be last]
 $IPTABLES -A INPUT -j REJECT
