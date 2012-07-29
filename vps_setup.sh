@@ -110,6 +110,10 @@ adduser $SUPER_USER
 usermod -a -G sudo $SUPER_USER
 usermod -a -G adm $SUPER_USER
 usermod -a -G www-data $SUPER_USER
+# Create Git User
+adduser git
+usermod -a -G www-data git
+usermod -a -G developers git
 
 ## Mail Aliases
 echo "root: root,$SUPPORT_EMAIL" | tee -a /etc/aliases
@@ -165,6 +169,7 @@ sed -i 's/^UseDNS yes/UseDNS no/' /etc/ssh/sshd_config
 echo "" | tee -a /etc/ssh/sshd_config
 echo "# Permit only specific users" | tee -a /etc/ssh/sshd_config
 echo "AllowUsers $SUPER_USER" | tee -a /etc/ssh/sshd_config
+echo "AllowUsers git" | tee -a /etc/ssh/sshd_config
 service ssh restart
 
 ## Email Configuration using Exim
