@@ -26,7 +26,6 @@ create_site() {
 	cp /var/www/index.html $WEB_HOME/$1/public_html/
 	
 	chown -R www-data:www-data $WEB_HOME/$1
-	chown root:root $WEB_HOME/$1
 	
 	echo "## HTTP $1" | tee -a $LIGHTTPD_CONF_AVAILABLE/$1.conf
 	echo "\$HTTP[\"host\"] =~ \"(^|\.)$ESCAPED_URL$\" {" | tee -a $LIGHTTPD_CONF_AVAILABLE/$1.conf
