@@ -50,8 +50,8 @@ chown www-data:www-data -R /var/cache/lighttpd/compress/
 cp /etc/lighttpd/lighttpd.conf /etc/lighttpd/lighttpd.conf.default
 
 ## Get Files
-wget -O /etc/lighttpd/lighttpd.conf https://raw.github.com/gist/3045812/a392ce48aa7f36c1f948ea934ab01b86af890734/lighttpd.default.conf
-wget -O /etc/lighttpd/conf-enabled/20-mimetype.conf https://raw.github.com/gist/3045736/2b7b0ee42e8709eac6321a347fff63304625deaa/20-mimetype.conf
+wget -O /etc/lighttpd/lighttpd.conf https://gist.github.com/alghanmi/3045812/raw/lighttpd.default.conf
+wget -O /etc/lighttpd/conf-enabled/20-mimetype.conf https://gist.github.com/alghanmi/3045736/raw/20-mimetype.conf
 rm /etc/lighttpd/conf-enabled/10-ssl.conf
 
 lighty-enable-mod fastcgi
