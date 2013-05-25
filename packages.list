@@ -14,8 +14,8 @@ unattended-upgrades apticron
 ## Networking Applications
 traceroute curl nmap dnsutils
 
-## Lighttpd
-lighttpd 
+## Web server
+nginx
 
 ## Email
 exim4-daemon-light
@@ -23,21 +23,21 @@ exim4-daemon-light
 ## Programming Languages & Platforms
 gdb colorgcc
 perl
-python3
-ruby1.9.1 ruby1.9.1-dev
-php5-cgi php5-dev php5-curl php-pear
-#openjdk-6-jdk ant maven2
+python python-pip
+ruby
+php5-cgi php5-cli php-apc php-pear
+#openjdk-7-jdk ant maven
 
 ## Software Version Contorl
-subversion subversion-tools git git-svn gitweb mercurial
+subversion subversion-tools git git-svn mercurial
 
 ## Text Editors, Text/Markup Related Scripts
-vim-nox vim-scripts nano
+vim-nox vim-scripts emacs23-nox emacs23-nox emacs-goodies-el nano
 enscript highlight astyle colordiff diffstat
 
 ## Language Related Packages
 locales
-iamerican wamerican ispell
+wamerican ispell
 
 ## Helpful Applications
 unzip zip unrar unace p7zip par2 wipe
