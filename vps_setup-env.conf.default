@@ -12,6 +12,7 @@ SERVER_NAME=""
 SERVER_DOMAIN=""
 # More domains if needed
 SERVER_OTHER_NAMES=""
+SERVER_OTHER_NAMES_IPv6=""
 # Email where system alerts should be routed to
 SUPPORT_EMAIL=""
 
@@ -28,7 +29,11 @@ MAILER_PASSWORD=""
 
 ## Default values set, change if needed
 SERVER_IP="$(ifconfig | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}')"
+SERVER_GATEWAY=
+SERVER_NETMASK=
 SERVER_IPv6=
+SERVER_GATEWAYv6=
+SERVER_NETMASKv6=
 SSH_PORT="12345"
 SERVER_LOCALE="en_US.UTF-8"
 
