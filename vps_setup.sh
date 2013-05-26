@@ -48,26 +48,24 @@ print_log() {
 	echo -e "\n\n\t****** $1 ******"
 }
 
+USAGE_MESSAGE="VPS configuration script. Usage:\n$0 VPS_CONFIGURATION"
+if [ $# -eq 0 ]; then
+	echo -e $USAGE_MESSAGE
+	exit 0
+fi
+if [ $# -ne 1 ]; then
+	echo -e $USAGE_MESSAGE
+	exit 1
+fi
+
 ## Loading configuration file
-load_conf_file vps_setup-env.conf
+load_conf_file $1
 
 ## Display variables to user for sanity check
 echo -e "\t*********************************************"
 echo -e "\t********** Debian VPS Setup Script **********"
 echo -e "\t*********************************************"
-echo -e "\tEnvironment Variables for the Setup:"
-echo -e "\t\tSERVER_IP = $SERVER_IP"
-echo -e "\t\tSUPER_USER = $SUPER_USER"
-echo -e "\t\tSERVER_NAME = $SERVER_NAME"
-echo -e "\t\tSERVER_DOMAIN = $SERVER_DOMAIN"
-echo -e "\t\tSERVER_OTHER_NAMES = $SERVER_OTHER_NAMES"
-echo -e "\t\tSSH_PORT = $SSH_PORT"
-echo -e "\t\tMAILER_SMARTHOST = $MAILER_SMARTHOST"
-echo -e "\t\tMAILER_PASSWORD = $MAILER_PASSWORD"
-echo -e "\t\tSUPPORT_EMAIL = $SUPPORT_EMAIL"
-echo -e "\t\tPACKAGES_FILE = $PACKAGES_FILE"
-echo -e "\t\tPACKAGES_SCRIPT = $PACKAGES_SCRIPT"
-echo -e "\t\tIPTABLES_SCRIPT = $IPTABLES_SCRIPT"
+sed -e '/^$\|^#/d' -e 's/\(.*\)=\(.*\)/\t\t\1 = \2/' -e 's/\"//g' $1
 echo -e "\t*********************************************"
 print_prompt
 
@@ -100,6 +98,8 @@ aptitude upgrade
 aptitude dist-upgrade
 
 ## Install new packages
+PACKAGES_FILE=packages.list
+PACKAGES_SCRIPT=install-packages.sh
 print_log "Installing new packages"
 echo -n "aptitude install " > $PACKAGES_SCRIPT
 sed '/^\#/d;/^$/d' $PACKAGES_FILE | tr '\n' ' ' >> $PACKAGES_SCRIPT
@@ -119,10 +119,7 @@ usermod -a -G sudo $SUPER_USER
 usermod -a -G adm $SUPER_USER
 usermod -a -G www-data $SUPER_USER
 addgroup developers
-# Create Git User
-adduser --disabled-password git
-usermod -a -G www-data git
-usermod -a -G developers git
+
 
 ## Mail Aliases
 echo "root: root,$SUPPORT_EMAIL" | tee -a /etc/aliases
@@ -189,7 +186,7 @@ if [ -n "$SERVER_IPv6" ]; then
 	echo "nameserver 2001:4860:4860::8888" | tee -a /etc/resolv.conf
 	echo "nameserver 2001:4860:4860::8844" | tee -a /etc/resolv.conf
 fi
-service networking restart
+
 
 ## SSH Configuration
 print_log "SSH Configuration"
@@ -207,7 +204,7 @@ echo "" | tee -a /etc/ssh/sshd_config
 echo "# Permit only specific users" | tee -a /etc/ssh/sshd_config
 echo "AllowUsers $SUPER_USER" | tee -a /etc/ssh/sshd_config
 echo "AllowUsers git" | tee -a /etc/ssh/sshd_config
-service ssh restart
+
 
 ## Email Configuration using Exim
 print_log "Exim configuration"
@@ -220,7 +217,6 @@ echo "$SERVER_NAME.$SERVER_DOMAIN" | tee /etc/mailname
 echo "*:$MAILER_EMAIL:$MAILER_PASSWORD" | tee -a /etc/exim4/passwd.client
 unset MAILER_PASSWORD
 update-exim4.conf
-service exim4 restart
 # Sending Test Email
 echo "Hello World! From $USER on $(hostname) sent to $SUPER_USER" | mail -s "Hello World from $(hostname)" $SUPER_USER
 
@@ -234,6 +230,25 @@ if [ -n "$SERVER_IPv6" ]; then
 	sh /home/$SUPER_USER/bin/ip6tables-setup.sh
 fi
 
+## Git Setup
+# Create Git User
+adduser --shell $(which git-shell) --gecos 'git version control' --disabled-password git
+usermod -a -G www-data git
+usermod -a -G developers git
+#Setup authorized_keys file for access
+mkdir -p /home/git/.ssh
+touch /home/git/.ssh/authorized_keys
+chmod 600 /home/git/.ssh/authorized_keys
+chmod 700 /home/git/.ssh
+#Copy the git-shell-commands to get limited shell access
+cp -r /usr/share/doc/git/contrib/git-shell-commands /home/git/
+chmod 750 /home/git/git-shell-commands/*
+#Fix permissions
+chown -R git:git /home/git/
+#Create a location to store repositories
+mkdir -p /home/repo
+chown -R git:www-data /home/repo
+
 ## Automatic package upgrades
 echo "APT::Periodic::Enable \"1\";" | tee /etc/apt/apt.conf.d/30auto-upgrades
 echo "APT::Periodic::Update-Package-Lists \"1\";" | tee -a /etc/apt/apt.conf.d/30auto-upgrades
@@ -242,3 +257,8 @@ echo "APT::Periodic::Unattended-Upgrade \"1\";" | tee -a /etc/apt/apt.conf.d/30a
 echo "Unattended-Upgrade::Mail \"$SUPPORT_EMAIL\";" | tee -a /etc/apt/apt.conf.d/30auto-upgrades
 cp /etc/apticron/apticron.conf /etc/apticron/apticron.conf.default
 sed -i "s/^EMAIL=.*/EMAIL=\"$SUPPORT_EMAIL\"/" /etc/apticron/apticron.conf
+
+## Restarting Services
+service ssh restart
+service exim4 restart
+service networking restart
