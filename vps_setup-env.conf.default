@@ -34,13 +34,6 @@ SERVER_NETMASK=
 SERVER_IPv6=
 SERVER_GATEWAYv6=
 SERVER_NETMASKv6=
-SSH_PORT="12345"
+SSH_PORT="22"
 SERVER_LOCALE="en_US.UTF-8"
 
-
-## DON'T CHANGE - Setup-script variables
-PACKAGES_FILE=packages.list
-PACKAGES_SCRIPT=install-packages.sh
-IPTABLES_SCRIPT=iptables.sh
-BACKUP_SCRIPT=backup-script.sh
-USER_CONFIGURATION=user-config.sh
