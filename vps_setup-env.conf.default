@@ -28,6 +28,7 @@ MAILER_EMAIL=""
 MAILER_PASSWORD=""
 
 ## Default values set, change if needed
+SERVER_IF="eth0"
 SERVER_IP="$(ifconfig | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk '{ print $1}')"
 SERVER_GATEWAY=
 SERVER_NETMASK=

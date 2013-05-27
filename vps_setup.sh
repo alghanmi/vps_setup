@@ -152,9 +152,14 @@ update-alternatives --config editor
 ## Network Interfaces
 print_log "Static IP Address Configuration"
 cp /etc/network/interfaces /etc/network/interfaces.default
-sed -i "s/iface eth0 inet dhcp/iface eth0 inet static\n\taddress $SERVER_IP\n\tnetmask $SERVER_NETMASK\n\tgateway $SERVER_GATEWAY\n/" /etc/network/interfaces
+sed -i "s/allow-hotplug\s*${SERVER_IF}/auto $SERVER_IF/" /etc/network/interfaces
+sed -i "s/iface $SERVER_IF inet dhcp/iface $SERVER_IF inet static\n\taddress $SERVER_IP\n\tnetmask $SERVER_NETMASK\n\tgateway $SERVER_GATEWAY\n/" /etc/network/interfaces
 if [ -n "$SERVER_IPv6" ]; then
-	sed -i "s/iface eth0 inet6 dhcp/iface eth0 inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6/" /etc/network/interfaces
+	if [ -n "$(cat /etc/network/interfaces | grep "iface $SERVER_IF inet6 dhcp")" ]; then
+		sed -i "s/iface $SERVER_IF inet6 dhcp/iface $SERVER_IF inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6/" /etc/network/interfaces
+	else
+		echo "iface $SERVER_IF inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6" | tee -a /etc/network/interfaces
+	fi
 fi
 
 
