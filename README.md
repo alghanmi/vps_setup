@@ -29,6 +29,7 @@ The following actions are performed by the script:
   + Set repositories. The following additional repositories are added
     * Debian Backports
     * Nginx Repository
+    * Testing Repository - disabled through [apt pinning](http://wiki.debian.org/AptPreferences)
   + Install packages in `packages.list`
   + Add `$SUPER_USER` as member of `sudo`, `adm` and `www-data` groups.
   + Set Timezone
@@ -60,6 +61,12 @@ TBD
 ###What is not Setup?
 + *Java* - Due to the amount of extra packages required by the JDK and JRE, Java setup is commented out of the script
 
+### Testing Repositories
+Due to the need to install some packages from _testing_, the testing package repos are added to the apt source list. However, no _testing_ packages are installed unless explicitly requested:
+```
+aptitude -t testing install enlightenment
+```
+This is acheived by updating the [apt preferences](http://wiki.debian.org/AptPreferences) or pinning.
 
 ##Running The Script
 

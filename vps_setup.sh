@@ -79,17 +79,45 @@ print_log "Updating Repositories"
 print_prompt
 cp /etc/apt/sources.list /etc/apt/sources.list.default
 echo "deb http://ftp.us.debian.org/debian/ wheezy main contrib non-free" | tee /etc/apt/sources.list
+echo "deb-src http://ftp.us.debian.org/debian/ wheezy main contrib non-free" | tee -a /etc/apt/sources.list
+echo "" | tee -a /etc/apt/sources.list
 echo "deb http://ftp.us.debian.org/debian/ wheezy-updates main contrib non-free" | tee -a /etc/apt/sources.list
+echo "deb-src http://ftp.debian.org/debian/ wheezy-updates main contrib non-free" | tee -a /etc/apt/sources.list
+echo "" | tee -a /etc/apt/sources.list
 echo "deb http://security.debian.org/ wheezy/updates main contrib non-free" | tee -a /etc/apt/sources.list
+echo "deb-src http://security.debian.org/ wheezy/updates main contrib non-free" | tee -a /etc/apt/sources.list
 
 ## Debian Packports
 echo "# Debian Backports" | tee /etc/apt/sources.list.d/debian-backports.list
 echo "deb http://ftp.debian.org/debian/ wheezy-backports main" | tee -a /etc/apt/sources.list.d/debian-backports.list
+echo "deb-src http://ftp.debian.org/debian/ wheezy-backports main" | tee -a /etc/apt/sources.list.d/debian-backports.list
+
+## Debian Testing
+echo "# Debian Testing" | tee /etc/apt/sources.list.d/debian-testing.list
+echo "deb http://ftp.us.debian.org/debian testing main" | tee -a /etc/apt/sources.list.d/debian-testing.list
+echo "deb-src http://ftp.us.debian.org/debian testing main" | tee -a /etc/apt/sources.list.d/debian-testing.list
 
 ## Nginx Official Package
 echo "# Nginx" | tee /etc/apt/sources.list.d/nginx.list
 echo "deb http://nginx.org/packages/debian/ wheezy nginx" | tee -a /etc/apt/sources.list.d/nginx.list
 apt-key adv --keyserver pgp.mit.edu --recv-keys ABF5BD827BD9BF62
+
+## APT Pinning
+## The following configuration only allows packages to be
+## explicitly installed from testing.
+echo "Package: *" | tee /etc/apt/preferences.d/$(lsb_release -cs)
+echo "Pin: release o=Debian,a=stable" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
+echo "Pin-Priority: 900" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
+echo "" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
+echo "Package: *" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
+echo "Pin: release o=Debian,a=testing" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
+echo "Pin-Priority: 300" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
+echo "" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
+echo "Package: *" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
+echo "Pin: release o=Debian" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
+echo "Pin-Priority: -1" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
+
+
 
 ## Update system
 print_log "Package update"
@@ -106,7 +134,8 @@ sed '/^\#/d;/^$/d' $PACKAGES_FILE | tr '\n' ' ' >> $PACKAGES_SCRIPT
 chmod 755 $PACKAGES_SCRIPT
 sh $PACKAGES_SCRIPT
 rm $PACKAGES_SCRIPT $PACKAGES_FILE
-
+aptitude clean
+aptitude autoclean
 
 ##
 ## SuperUser Setup
