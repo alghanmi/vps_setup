@@ -283,6 +283,25 @@ chown -R git:git /home/git/
 mkdir -p /home/repo
 chown -R git:www-data /home/repo
 
+##Nginx Setup
+# Main configuration
+cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.default
+sed -i 's/^\s*user\s*.*/user\twww-data www-data;/g' /etc/nginx/nginx.conf
+sed -i 's/^\(\s*\)#gzip\s*.*;/\1gzip on;\
+\1gzip_http_version 1.1;\
+\1gzip_comp_level 2;\
+\1gzip_types    text\/plain text\/css text\/xml\
+\1              application\/x-javascript application\/xml\
+\1              application\/xml+rss text\/javascript;/' /etc/nginx/nginx.conf
+# Default server configuration
+WEB_HOME=/home/www
+DEFAULT_WEB_HOME=/home/www/default
+cp /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.default
+mkdir -p $WEB_HOME $DEFAULT_WEB_HOME $DEFAULT_WEB_HOME/public_html
+curl --silent https://gist.github.com/alghanmi/5760892/raw/default.conf -o /etc/nginx/conf.d/default.conf
+curl --silent https://gist.github.com/alghanmi/5759038/raw/ | sed "s/DOMAIN/My Website/g" > $DEFAULT_WEB_HOME/public_html/index.html
+chown -R www-data:www-data /home/www
+
 ## Automatic package upgrades
 echo "APT::Periodic::Enable \"1\";" | tee /etc/apt/apt.conf.d/30auto-upgrades
 echo "APT::Periodic::Update-Package-Lists \"1\";" | tee -a /etc/apt/apt.conf.d/30auto-upgrades
