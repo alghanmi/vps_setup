@@ -8,11 +8,12 @@ build-essential binutils
 screen byobu
 
 ## System tools
-sudo ntp lsb-release
+sudo ntp lsb-release udev
 unattended-upgrades apticron
 
 ## Networking Applications
 traceroute curl nmap dnsutils
+openvpn libpam0g-dev
 
 ## Lighttpd
 lighttpd 
