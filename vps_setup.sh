@@ -121,6 +121,8 @@ echo "Pin-Priority: -1" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
 
 ## Update system
 print_log "Package update"
+apt-get update
+apt-get install aptitude
 aptitude update
 aptitude upgrade
 aptitude dist-upgrade
