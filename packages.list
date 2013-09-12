@@ -23,8 +23,8 @@ exim4-daemon-light
 ## Programming Languages & Platforms
 gdb colorgcc
 perl
-python python-pip
-ruby
+python python-dev python-pip
+ruby ruby-dev
 php5-cgi php5-cli php-apc php-pear
 #openjdk-7-jdk ant maven
 
