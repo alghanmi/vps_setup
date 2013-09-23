@@ -8,7 +8,7 @@ fi
 
 WEB_HOME=/home/www
 WEB_USER=www-data
-NGINX_SITE_CONF=/etc/nginx/conf.d
+NGINX_SITE_CONF=/etc/nginx/sites-available
 
 create_site() {
 	ESCAPED_URL=$(echo "$1" | sed "s/\./\\\./g" -)
