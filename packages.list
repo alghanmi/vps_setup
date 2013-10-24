@@ -6,6 +6,7 @@
 ssh openssh-server openssl
 build-essential binutils
 screen byobu
+bash-completion dialog
 
 ## System tools
 sudo ntp lsb-release
