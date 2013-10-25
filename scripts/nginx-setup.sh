@@ -2,8 +2,18 @@
 
 ## Force to run as root
 if [ "$(id -u)" != "0" ]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
+	echo "This script must be run as root" 1>&2
+	exit 1
+fi
+
+USAGE_MESSAGE="Nginx VirtualHost Generator. Usage:\n$0 WEBSITE_URL"
+if [ $# -eq 0 ]; then
+	echo -e $USAGE_MESSAGE
+	exit 0
+fi
+if [ $# -ne 1 ]; then
+	echo -e $USAGE_MESSAGE
+	exit 1
 fi
 
 WEB_HOME=/home/www
@@ -30,5 +40,4 @@ create_site() {
 	curl --silent https://gist.github.com/alghanmi/5760892/raw/domain.conf | sed -e "s/DOMAIN/$1/g" -e "s/SITE_HOME/$ESCAPED_SITE_HOME/g" > $NGINX_SITE_CONF/$1.conf
 }
 
-create_site example.org
-
+create_site $1
