@@ -179,37 +179,44 @@ print_log "Updating alernatives"
 update-alternatives --config editor
 #update-alternatives --config java
 
-## Network Interfaces
-print_log "Static IP Address Configuration"
-cp /etc/network/interfaces /etc/network/interfaces.default
-sed -i "s/allow-hotplug\s*${SERVER_IF}/auto $SERVER_IF/" /etc/network/interfaces
-sed -i "s/iface $SERVER_IF inet dhcp/iface $SERVER_IF inet static\n\taddress $SERVER_IP\n\tnetmask $SERVER_NETMASK\n\tgateway $SERVER_GATEWAY\n/" /etc/network/interfaces
-if [ -n "$SERVER_IPv6" ]; then
-	if [ -n "$(cat /etc/network/interfaces | grep "iface $SERVER_IF inet6 dhcp")" ]; then
-		sed -i "s/iface $SERVER_IF inet6 dhcp/iface $SERVER_IF inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6/" /etc/network/interfaces
-	else
-		echo "iface $SERVER_IF inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6" | tee -a /etc/network/interfaces
-	fi
-fi
-
-
 ## Hostname
 print_log "HostName configuration"
 echo "$SERVER_NAME.$SERVER_DOMAIN" | tee /etc/hostname
 hostname -F /etc/hostname
 
-## IPv4
-echo -e "127.0.0.1\tlocalhost.localdomain localhost" | tee /etc/hosts
-echo -e "$SERVER_IP\t$SERVER_NAME.$SERVER_DOMAIN $SERVER_NAME $SERVER_OTHER_NAMES" | tee -a /etc/hosts
+## Network Interfaces
+##    Ignoring this step in case of OpenVZ VPSs
+if [ ! -a /proc/user_beancounters ]
+	then
+		## Static IP Configuration
+		print_log "Static IP Address Configuration"
+		cp /etc/network/interfaces /etc/network/interfaces.default
+		sed -i "s/allow-hotplug\s*${SERVER_IF}/auto $SERVER_IF/" /etc/network/interfaces
+		sed -i "s/iface $SERVER_IF inet dhcp/iface $SERVER_IF inet static\n\taddress $SERVER_IP\n\tnetmask $SERVER_NETMASK\n\tgateway $SERVER_GATEWAY\n/" /etc/network/interfaces
+		if [ -n "$SERVER_IPv6" ]; then
+			if [ -n "$(cat /etc/network/interfaces | grep "iface $SERVER_IF inet6 dhcp")" ]; then
+				sed -i "s/iface $SERVER_IF inet6 dhcp/iface $SERVER_IF inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6/" /etc/network/interfaces
+			else
+				echo "iface $SERVER_IF inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6" | tee -a /etc/network/interfaces
+			fi
+		fi
 
-##IPv6 if defined
-if [ -n "$SERVER_IPv6" ]; then
-	echo -e "\n\n#IPv6 Configuration" | tee -a /etc/hosts
-	echo -e "::1\tlocalhost.localdomain localhost ip6-localhost ip6-loopback" | tee -a /etc/hosts
-	echo -e "$SERVER_IPv6\t$SERVER_NAME.$SERVER_DOMAIN $SERVER_NAME $SERVER_OTHER_NAMES $SERVER_OTHER_NAMES_IPv6" | tee -a /etc/hosts
-	echo -e "ff02::1\tip6-allnodes" | tee -a /etc/hosts
-	echo -e "ff02::2\tip6-allrouters" | tee -a /etc/hosts
+		## IPv4
+		echo -e "127.0.0.1\tlocalhost.localdomain localhost" | tee /etc/hosts
+		echo -e "$SERVER_IP\t$SERVER_NAME.$SERVER_DOMAIN $SERVER_NAME $SERVER_OTHER_NAMES" | tee -a /etc/hosts
+
+		##IPv6 if defined
+		if [ -n "$SERVER_IPv6" ]; then
+			echo -e "\n\n#IPv6 Configuration" | tee -a /etc/hosts
+			echo -e "::1\tlocalhost.localdomain localhost ip6-localhost ip6-loopback" | tee -a /etc/hosts
+			echo -e "$SERVER_IPv6\t$SERVER_NAME.$SERVER_DOMAIN $SERVER_NAME $SERVER_OTHER_NAMES $SERVER_OTHER_NAMES_IPv6" | tee -a /etc/hosts
+			echo -e "ff02::1\tip6-allnodes" | tee -a /etc/hosts
+			echo -e "ff02::2\tip6-allrouters" | tee -a /etc/hosts
+		fi
+	else
+		print_log "*Not* Configuring Static IP Address (OpenVZ)"
 fi
+
 
 ## DNS Name Servers
 print_log "DNS Configuration"
