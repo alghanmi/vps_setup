@@ -6,11 +6,11 @@
 ssh openssh-server openssl
 build-essential binutils
 screen byobu
-bash-completion dialog
 
 ## System tools
 sudo ntp lsb-release
-unattended-upgrades apticron
+aptitude unattended-upgrades apticron
+bash-completion dialog
 
 ## Networking Applications
 traceroute curl nmap dnsutils

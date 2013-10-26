@@ -122,22 +122,21 @@ echo "Pin-Priority: -1" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
 ## Update system
 print_log "Package update"
 apt-get update
-apt-get install aptitude
-aptitude update
-aptitude upgrade
-aptitude dist-upgrade
+apt-get upgrade
+apt-get dist-upgrade
 
 ## Install new packages
 PACKAGES_FILE=packages.list
 PACKAGES_SCRIPT=install-packages.sh
 print_log "Installing new packages"
-echo -n "aptitude install " > $PACKAGES_SCRIPT
+echo -n "apt-get install " > $PACKAGES_SCRIPT
 sed '/^\#/d;/^$/d' $PACKAGES_FILE | tr '\n' ' ' >> $PACKAGES_SCRIPT
 chmod 755 $PACKAGES_SCRIPT
 sh $PACKAGES_SCRIPT
 rm $PACKAGES_SCRIPT $PACKAGES_FILE
-aptitude clean
-aptitude autoclean
+apt-get autoremove
+apt-get clean
+apt-get autoclean
 
 ##
 ## SuperUser Setup
