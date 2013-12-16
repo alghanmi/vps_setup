@@ -197,7 +197,7 @@ if [ ! -a /proc/user_beancounters ]
 			if [ -n "$(cat /etc/network/interfaces | grep "iface $SERVER_IF inet6 dhcp")" ]; then
 				sed -i "s/iface $SERVER_IF inet6 dhcp/iface $SERVER_IF inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6/" /etc/network/interfaces
 			else
-				echo "iface $SERVER_IF inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6" | tee -a /etc/network/interfaces
+				echo -e "iface $SERVER_IF inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6" | tee -a /etc/network/interfaces
 			fi
 		fi
 
