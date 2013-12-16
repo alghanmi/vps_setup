@@ -105,17 +105,17 @@ apt-key adv --keyserver pgp.mit.edu --recv-keys ABF5BD827BD9BF62
 ## APT Pinning
 ## The following configuration only allows packages to be
 ## explicitly installed from testing.
-echo "Package: *" | tee /etc/apt/preferences.d/$(lsb_release -cs)
-echo "Pin: release o=Debian,a=stable" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
-echo "Pin-Priority: 900" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
-echo "" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
-echo "Package: *" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
-echo "Pin: release o=Debian,a=testing" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
-echo "Pin-Priority: 300" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
-echo "" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
-echo "Package: *" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
-echo "Pin: release o=Debian" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
-echo "Pin-Priority: -1" | tee -a /etc/apt/preferences.d/$(lsb_release -cs)
+echo "Package: *" | tee /etc/apt/preferences.d/wheezy
+echo "Pin: release o=Debian,a=stable" | tee -a /etc/apt/preferences.d/wheezy
+echo "Pin-Priority: 900" | tee -a /etc/apt/preferences.d/wheezy
+echo "" | tee -a /etc/apt/preferences.d/wheezy
+echo "Package: *" | tee -a /etc/apt/preferences.d/wheezy
+echo "Pin: release o=Debian,a=testing" | tee -a /etc/apt/preferences.d/wheezy
+echo "Pin-Priority: 300" | tee -a /etc/apt/preferences.d/wheezy
+echo "" | tee -a /etc/apt/preferences.d/wheezy
+echo "Package: *" | tee -a /etc/apt/preferences.d/wheezy
+echo "Pin: release o=Debian" | tee -a /etc/apt/preferences.d/wheezy
+echo "Pin-Priority: -1" | tee -a /etc/apt/preferences.d/wheezy
 
 
 
