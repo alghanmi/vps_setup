@@ -100,6 +100,7 @@ echo "deb-src http://ftp.us.debian.org/debian testing main" | tee -a /etc/apt/so
 ## Nginx Official Package
 echo "# Nginx" | tee /etc/apt/sources.list.d/nginx.list
 echo "deb http://nginx.org/packages/debian/ wheezy nginx" | tee -a /etc/apt/sources.list.d/nginx.list
+echo "deb-src http://nginx.org/packages/debian/ wheezy nginx" | tee -a /etc/apt/sources.list.d/nginx.list
 apt-key adv --keyserver pgp.mit.edu --recv-keys ABF5BD827BD9BF62
 
 ## APT Pinning
@@ -117,7 +118,10 @@ echo "Package: *" | tee -a /etc/apt/preferences.d/wheezy
 echo "Pin: release o=Debian" | tee -a /etc/apt/preferences.d/wheezy
 echo "Pin-Priority: -1" | tee -a /etc/apt/preferences.d/wheezy
 
-
+## Give Nginx official package priority over debian repos
+echo "Package: *" | tee /etc/apt/preferences.d/nginx
+echo "Pin: origin nginx.org" | tee -a /etc/apt/preferences.d/nginx
+echo "Pin-Priority: 910" | tee -a /etc/apt/preferences.d/nginx
 
 ## Update system
 print_log "Package update"
