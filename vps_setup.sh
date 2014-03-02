@@ -272,11 +272,11 @@ update-exim4.conf
 echo "Hello World! From $USER on $(hostname) sent to $SUPER_USER" | mail -s "Hello World from $(hostname)" $SUPER_USER
 
 ## iptables
-curl https://raw.github.com/alghanmi/vps_setup/master/scripts/iptables-setup.sh | sed -e s/^SERVER_IP=.*/SERVER_IP=\"$SERVER_IP\"/ -e s/^SSH_PORT=.*/SSH_PORT=\"$SSH_PORT\"/ - > /home/$SUPER_USER/bin/iptables-setup.sh
+curl --silent https://raw.github.com/alghanmi/vps_setup/master/scripts/iptables-setup.sh | sed -e s/^SERVER_IP=.*/SERVER_IP=\"$SERVER_IP\"/ -e s/^SSH_PORT=.*/SSH_PORT=\"$SSH_PORT\"/ - > /home/$SUPER_USER/bin/iptables-setup.sh
 chmod 755 /home/$SUPER_USER/bin/iptables-setup.sh
 sh /home/$SUPER_USER/bin/iptables-setup.sh
 if [ -n "$SERVER_IPv6" ]; then
-	curl https://raw.github.com/alghanmi/vps_setup/master/scripts/ip6tables-setup.sh | sed -e s/^SERVER_IP=.*/SERVER_IP=\"$SERVER_IPv6\"/ -e s/^SSH_PORT=.*/SSH_PORT=\"$SSH_PORT\"/ - > /home/$SUPER_USER/bin/ip6tables-setup.sh
+	curl --silent https://raw.github.com/alghanmi/vps_setup/master/scripts/ip6tables-setup.sh | sed -e s/^SERVER_IP=.*/SERVER_IP=\"$SERVER_IPv6\"/ -e s/^SSH_PORT=.*/SSH_PORT=\"$SSH_PORT\"/ - > /home/$SUPER_USER/bin/ip6tables-setup.sh
 	chmod 755 /home/$SUPER_USER/bin/ip6tables-setup.sh
 	sh /home/$SUPER_USER/bin/ip6tables-setup.sh
 fi
@@ -304,19 +304,18 @@ chown -R git:www-data /home/repo
 # Main configuration
 cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.default
 sed -i 's/^\s*user\s*.*/user\twww-data www-data;/g' /etc/nginx/nginx.conf
-sed -i 's/^\(\s*\)#gzip\s*.*;/\1gzip on;\
-\1gzip_http_version 1.1;\
-\1gzip_comp_level 2;\
-\1gzip_types    text\/plain text\/css text\/xml\
-\1              application\/x-javascript application\/xml\
-\1              application\/xml+rss text\/javascript;/' /etc/nginx/nginx.conf
+curl --silent https://gist.githubusercontent.com/alghanmi/5760892/raw/nginx.conf --output /etc/nginx/nginx.conf
+#Clean-Up & House Keeping
+find /etc/nginx/conf.d/ -name "*.conf" -exec mv {} {}.default \;
+mkdir /etc/nginx/sites-enabled
+mkdir /etc/nginx/sites-available
 # Default server configuration
+curl --silent https://gist.githubusercontent.com/alghanmi/5760892/raw/default.conf -o /etc/nginx/sites-available/default.conf
+ln -s /etc/nginx/sites-available/default.conf /etc/nginx/sites-enabled/default.conf
 WEB_HOME=/home/www
 DEFAULT_WEB_HOME=/home/www/default
-cp /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.default
 mkdir -p $WEB_HOME $DEFAULT_WEB_HOME $DEFAULT_WEB_HOME/public_html
-curl --silent https://gist.github.com/alghanmi/5760892/raw/default.conf -o /etc/nginx/conf.d/default.conf
-curl --silent https://gist.github.com/alghanmi/5759038/raw/ | sed "s/DOMAIN/My Website/g" > $DEFAULT_WEB_HOME/public_html/index.html
+curl --silent https://gist.githubusercontent.com/alghanmi/5759038/raw/ | sed "s/DOMAIN/My Website/g" > $DEFAULT_WEB_HOME/public_html/index.html
 chown -R www-data:www-data /home/www
 
 ## Automatic package upgrades
@@ -331,4 +330,5 @@ sed -i "s/^EMAIL=.*/EMAIL=\"$SUPPORT_EMAIL\"/" /etc/apticron/apticron.conf
 ## Restarting Services
 service ssh restart
 service exim4 restart
+service nginx restart
 service networking restart
