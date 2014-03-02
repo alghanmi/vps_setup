@@ -108,7 +108,7 @@ apt-key adv --keyserver pgp.mit.edu --recv-keys ABF5BD827BD9BF62
 ## explicitly installed from testing.
 echo "Package: *" | tee /etc/apt/preferences.d/wheezy
 echo "Pin: release o=Debian,a=stable" | tee -a /etc/apt/preferences.d/wheezy
-echo "Pin-Priority: 900" | tee -a /etc/apt/preferences.d/wheezy
+echo "Pin-Priority: 800" | tee -a /etc/apt/preferences.d/wheezy
 echo "" | tee -a /etc/apt/preferences.d/wheezy
 echo "Package: *" | tee -a /etc/apt/preferences.d/wheezy
 echo "Pin: release o=Debian,a=testing" | tee -a /etc/apt/preferences.d/wheezy
@@ -119,9 +119,9 @@ echo "Pin: release o=Debian" | tee -a /etc/apt/preferences.d/wheezy
 echo "Pin-Priority: -1" | tee -a /etc/apt/preferences.d/wheezy
 
 ## Give Nginx official package priority over debian repos
-echo "Package: *" | tee /etc/apt/preferences.d/nginx
+echo "Package: nginx nginx-debug" | tee /etc/apt/preferences.d/nginx
 echo "Pin: origin nginx.org" | tee -a /etc/apt/preferences.d/nginx
-echo "Pin-Priority: 910" | tee -a /etc/apt/preferences.d/nginx
+echo "Pin-Priority: 901" | tee -a /etc/apt/preferences.d/nginx
 
 ## Update system
 print_log "Package update"
@@ -196,12 +196,12 @@ if [ ! -a /proc/user_beancounters ]
 		print_log "Static IP Address Configuration"
 		cp /etc/network/interfaces /etc/network/interfaces.default
 		sed -i "s/allow-hotplug\s*${SERVER_IF}/auto $SERVER_IF/" /etc/network/interfaces
-		sed -i "s/iface $SERVER_IF inet dhcp/iface $SERVER_IF inet static\n\taddress $SERVER_IP\n\tnetmask $SERVER_NETMASK\n\tgateway $SERVER_GATEWAY\n/" /etc/network/interfaces
+		sed -i "s/iface $SERVER_IF inet dhcp/iface $SERVER_IF inet static\n\taddress $SERVER_IP\n\tnetmask $SERVER_NETMASK\n\tgateway $SERVER_GATEWAY\n\tdns-nameservers $DNS_SERVERS\n/" /etc/network/interfaces
 		if [ -n "$SERVER_IPv6" ]; then
 			if [ -n "$(cat /etc/network/interfaces | grep "iface $SERVER_IF inet6 dhcp")" ]; then
-				sed -i "s/iface $SERVER_IF inet6 dhcp/iface $SERVER_IF inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6/" /etc/network/interfaces
+				sed -i "s/iface $SERVER_IF inet6 dhcp/iface $SERVER_IF inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6\n\tdns-nameservers $DNS_SERVERSv6/" /etc/network/interfaces
 			else
-				echo -e "iface $SERVER_IF inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6" | tee -a /etc/network/interfaces
+				echo -e "iface $SERVER_IF inet6 static\n\taddress $SERVER_IPv6\n\tnetmask $SERVER_NETMASKv6\n\tgateway $SERVER_GATEWAYv6\n\tdns-nameservers $DNS_SERVERSv6" | tee -a /etc/network/interfaces
 			fi
 		fi
 
@@ -223,15 +223,16 @@ fi
 
 
 ## DNS Name Servers
-print_log "DNS Configuration"
+##    Using the dns-nameservers directive in /etc/network/interfaces
+#print_log "DNS Configuration"
 cp /etc/resolv.conf /etc/resolv.conf.default
-sed -i '1i\
-nameserver 8.8.8.8\
-nameserver 8.8.4.4' /etc/resolv.conf
-if [ -n "$SERVER_IPv6" ]; then
-	echo "nameserver 2001:4860:4860::8888" | tee -a /etc/resolv.conf
-	echo "nameserver 2001:4860:4860::8844" | tee -a /etc/resolv.conf
-fi
+#sed -i '1i\
+#nameserver 8.8.8.8\
+#nameserver 8.8.4.4' /etc/resolv.conf
+#if [ -n "$SERVER_IPv6" ]; then
+#	echo "nameserver 2001:4860:4860::8888" | tee -a /etc/resolv.conf
+#	echo "nameserver 2001:4860:4860::8844" | tee -a /etc/resolv.conf
+#fi
 
 
 ## SSH Configuration
@@ -262,6 +263,10 @@ sed -i -e "s/^dc_eximconfig_configtype='.*'/dc_eximconfig_configtype='smarthost'
 echo "$SERVER_NAME.$SERVER_DOMAIN" | tee /etc/mailname
 echo "*:$MAILER_EMAIL:$MAILER_PASSWORD" | tee -a /etc/exim4/passwd.client
 unset MAILER_PASSWORD
+#Disable listening on IPv6 port if no IPv6 interface is configered
+if [ -z "$SERVER_IPv6" ]; then
+	sed -i "s/^dc_local_interfaces='127.0.0.1 ; ::1'/dc_local_interfaces='127.0.0.1'/" /etc/exim4/update-exim4.conf.conf
+fi
 update-exim4.conf
 # Sending Test Email
 echo "Hello World! From $USER on $(hostname) sent to $SUPER_USER" | mail -s "Hello World from $(hostname)" $SUPER_USER
