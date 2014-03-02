@@ -5,7 +5,7 @@
 ## Libraries, Software & Development Essentials
 ssh openssh-server openssl
 build-essential binutils
-screen byobu
+screen tmux
 
 ## System tools
 sudo ntp lsb-release
