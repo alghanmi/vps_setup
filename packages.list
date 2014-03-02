@@ -8,7 +8,7 @@ build-essential binutils
 screen tmux
 
 ## System tools
-sudo ntp lsb-release tree
+sudo ntp lsb-release tree htop
 aptitude unattended-upgrades apticron
 bash-completion dialog
 
