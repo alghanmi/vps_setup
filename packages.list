@@ -8,7 +8,7 @@ build-essential binutils
 screen tmux
 
 ## System tools
-sudo ntp lsb-release
+sudo ntp lsb-release tree
 aptitude unattended-upgrades apticron
 bash-completion dialog
 
@@ -30,7 +30,7 @@ php5-cgi php5-cli php-apc php-pear
 #openjdk-7-jdk ant maven
 
 ## Software Version Contorl
-subversion subversion-tools git git-svn mercurial
+subversion subversion-tools git mercurial
 
 ## Text Editors, Text/Markup Related Scripts
 vim-nox vim-scripts emacs23-nox emacs23-nox emacs-goodies-el nano
