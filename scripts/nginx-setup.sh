@@ -35,9 +35,9 @@ create_site() {
 	chmod --silent 400 $WEB_HOME/$1/ssl/*
 	chmod --silent 644 $WEB_HOME/$1/ssl
 	
-	curl --silent https://gist.github.com/alghanmi/5759038/raw/ | sed "s/DOMAIN/$1/g" > $WEB_HOME/$1/public_html/index.html
+	curl --silent https://gist.githubusercontent.com/alghanmi/5759038/raw/ | sed "s/DOMAIN/$1/g" > $WEB_HOME/$1/public_html/index.html
 	chown -R $WEB_USER:$WEB_USER $WEB_HOME/$1
-	curl --silent https://gist.github.com/alghanmi/5760892/raw/domain.conf | sed -e "s/DOMAIN/$1/g" -e "s/SITE_HOME/$ESCAPED_SITE_HOME/g" > $NGINX_SITE_CONF/$1.conf
+	curl --silent https://gist.githubusercontent.com/alghanmi/5760892/raw/domain.conf | sed -e "s/DOMAIN/$1/g" -e "s/SITE_HOME/$ESCAPED_SITE_HOME/g" > $NGINX_SITE_CONF/$1.conf
 }
 
 create_site $1
