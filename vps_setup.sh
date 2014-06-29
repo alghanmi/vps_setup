@@ -105,10 +105,18 @@ apt-key adv --keyserver pgp.mit.edu --recv-keys ABF5BD827BD9BF62
 
 ## APT Pinning
 ## The following configuration only allows packages to be
-## explicitly installed from testing.
+## explicitly installed from testing or backports.
 echo "Package: *" | tee /etc/apt/preferences.d/wheezy
 echo "Pin: release o=Debian,a=stable" | tee -a /etc/apt/preferences.d/wheezy
 echo "Pin-Priority: 800" | tee -a /etc/apt/preferences.d/wheezy
+echo "" | tee -a /etc/apt/preferences.d/wheezy
+echo "Package: *" | tee -a /etc/apt/preferences.d/wheezy
+echo "Pin: release o=Debian,a=stable-updates" | tee -a /etc/apt/preferences.d/wheezy
+echo "Pin-Priority: 800" | tee -a /etc/apt/preferences.d/wheezy
+echo "" | tee -a /etc/apt/preferences.d/wheezy
+echo "Package: *" | tee -a /etc/apt/preferences.d/wheezy
+echo "Pin: release a=wheezy-backports" | tee -a /etc/apt/preferences.d/wheezy
+echo "Pin-Priority: 400" | tee -a /etc/apt/preferences.d/wheezy
 echo "" | tee -a /etc/apt/preferences.d/wheezy
 echo "Package: *" | tee -a /etc/apt/preferences.d/wheezy
 echo "Pin: release o=Debian,a=testing" | tee -a /etc/apt/preferences.d/wheezy
